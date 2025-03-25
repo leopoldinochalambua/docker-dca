@@ -8,6 +8,9 @@
 7. https://www.youtube.com/watch?v=kxcc_PaBCm4&t=133s
 * https://kinsta.com/pt/base-de-conhecimento/que-e-docker/
 * https://www.hostinger.com.br/tutoriais/o-que-e-docker
+* https://www.cyberciti.biz/cloud-computing/use-vagrant-to-create-small-virtual-lab-on-linux-osx/ - criar lab
+* https://rolfstreefkerk.com/article/how-to-create-a-flexible-dev-environment-with-vagrant-and-docker
+* https://github.com/rofrano/lab-vagrant
 
 # Capítulo 01 - Fundamentos
 
@@ -134,27 +137,9 @@ Vagrant é um software de código aberto para criar e manter ambientes de desenv
 
 ### Instalação do vagrant base debian
 
-
-* wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-> paulo@dev:~$ wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
---2024-05-12 11:59:55--  https://apt.releases.hashicorp.com/gpg
-[sudo] password for paulo: Resolving apt.releases.hashicorp.com (apt.releases.hashicorp.com)... 3.161.94.9, 3.161.94.52, 3.161.94.70, ...
-Connecting to apt.releases.hashicorp.com (apt.releases.hashicorp.com)|3.161.94.9|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 3980 (3.9K) [binary/octet-stream]
-Saving to: ‘STDOUT’
-
--                   100%[===================>]   3.89K  --.-KB/s    in 0s      
-
-2024-05-12 11:59:56 (22.2 MB/s) - written to stdout [3980/3980]
-
-[sudo] password for paulo: 
-
-* echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-> paulo@dev:~$ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com noble main
-
-* sudo apt update && sudo apt install vagrant
+1. wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+2. echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+3. sudo apt update && sudo apt install vagrant
 
 >Para mais detalhes sobre o vagrant veja o link:
 https://www.youtube.com/watch?v=yW-2dFpL2-k
@@ -284,121 +269,7 @@ Vagrant 2.4.1
 paulo@dev:docker-dca$ pwd
 /home/paulo/projetos/devop/dcker-dca
 paulo@dev:dcker-dca$ vagrant up node01
-``bash
-Bringing machine 'node01' up with 'virtualbox' provider...
-==> node01: Checking if box 'ubuntu/jammy64' version '20240426.0.0' is up to date...
-==> node01: Clearing any previously set network interfaces...
-==> node01: Preparing network interfaces based on configuration...
-    node01: Adapter 1: nat
-    node01: Adapter 2: hostonly
-==> node01: Forwarding ports...
-    node01: 22 (guest) => 2222 (host) (adapter 1)
-==> node01: Running 'pre-boot' VM customizations...
-==> node01: Booting VM...
-==> node01: Waiting for machine to boot. This may take a few minutes...
-    node01: SSH address: 127.0.0.1:2222
-    node01: SSH username: vagrant
-    node01: SSH auth method: private key
-    node01: Warning: Connection reset. Retrying...
-    node01: Warning: Connection reset. Retrying...
-    node01: Warning: Remote connection disconnect. Retrying...
-    node01: Warning: Connection reset. Retrying...
-    node01: 
-    node01: Vagrant insecure key detected. Vagrant will automatically replace
-    node01: this with a newly generated keypair for better security.
-    node01: Client: Docker Engine - Community
-    node01:  Version:           26.1.2
-    node01:  API version:       1.45
-    node01:  Go version:        go1.21.10
-    node01:  Git commit:        211e74b
-    node01:  Built:             Wed May  8 13:59:59 2024
-    node01:  OS/Arch:           linux/amd64
-    node01:  Context:           default
-    node01: 
-    node01: Server: Docker Engine - Community
-    node01:  Engine:
-    node01:   Version:          26.1.2
-    node01:   API version:      1.45 (minimum version 1.24)
-    node01:   Go version:       go1.21.10
-    node01:   Git commit:       ef1912d
-    node01:   Built:            Wed May  8 13:59:59 2024
-    node01:   OS/Arch:          linux/amd64
-    node01:   Experimental:     false
-    node01:  containerd:
-    node01:   Version:          1.6.31
-    node01:   GitCommit:        e377cd56a71523140ca6ae87e30244719194a521
-    node01:  runc:
-    node01:   Version:          1.1.12
-    node01:   GitCommit:        v1.1.12-0-g51d5e94
-    node01:  docker-init:
-    node01:   Version:          0.19.0
-    node01:   GitCommit:        de40ad0
-    node01: 
-    node01: ================================================================================
-    node01: 
-    node01: To run Docker as a non-privileged user, consider setting up the
-    node01: Docker daemon in rootless mode for your user:
-    node01: 
-    node01:     dockerd-rootless-setuptool.sh install
-    node01: 
-    node01: Visit https://docs.docker.com/go/rootless/ to learn about rootless mode.
-    node01: 
-    node01: 
-    node01: To run the Docker daemon as a fully privileged service, but granting non-root
-    node01: users access, refer to https://docs.docker.com/go/daemon-access/
-    node01: 
-    node01: WARNING: Access to the remote API on a privileged Docker daemon is equivalent
-    node01:          to root access on the host. Refer to the 'Docker daemon attack surface'
-    node01:          documentation for details: https://docs.docker.com/go/attack-surface/
-    node01: 
-    node01: ================================================================================
-    node01: 
-    node01: Synchronizing state of docker.service with SysV service script with /lib/systemd/systemd-sysv-install.
-    node01: Executing: /lib/systemd/systemd-sysv-install enable docker
-==> node01: Running provisioner: shell...
-    node01: Running: inline script
-```
-
 paulo@dev:dcker-dca$ vagrant up node02   
-```bash
-Bringing machine 'node02' up with 'virtualbox' provider...
-==> node02: Checking if box 'rockylinux/9' version '4.0.0' is up to date...
-==> node02: Clearing any previously set forwarded ports...
-==> node02: Clearing any previously set network interfaces...
-==> node02: Preparing network interfaces based on configuration...
-    node02: Adapter 1: nat
-    node02: Adapter 2: hostonly
-==> node02: Forwarding ports...
-    node02: 22 (guest) => 2222 (host) (adapter 1)
-==> node02: Running 'pre-boot' VM customizations...
-==> node02: Booting VM...
-==> node02: Waiting for machine to boot. This may take a few minutes...
-    node02: SSH address: 127.0.0.1:2222
-    node02: SSH username: vagrant
-    node02: SSH auth method: private key
-==> node02: Machine booted and ready!
-==> node02: Checking for guest additions in VM...
-==> node02: Setting hostname...
-==> node02: Configuring and enabling network interfaces...
-==> node02: Mounting shared folders...
-    node02: /vagrant => /home/paulo/projetos/devop/dcker-dca
-==> node02: Machine already provisioned. Run `vagrant provision` or use the `--provision`
-==> node02: flag to force provisioning. Provisioners marked to run always will still run.
-```
-
-```
-paulo@dev:docker-dca$ vagrant provision
-==> master: VM not created. Moving on...
-==> node01: Running provisioner: shell...
-    node01: Running: /tmp/vagrant-shell20240513-20183-zibk1a.sh
-==> node01: Running provisioner: shell...
-    node01: Running: inline script
-==> node02: Running provisioner: shell...
-    node02: Running: /tmp/vagrant-shell20240513-20183-4k4exr.sh
-==> node02: Running provisioner: shell...
-    node02: Running: inline script
-==> registry: VM not created. Moving on...
-```
 
 ## Acesso direto as maquinas
 user: vagrant
@@ -421,42 +292,7 @@ VM, run `vagrant status NAME`.
 
 Para se conectar as máquinas utilize o comando `vagrant ssh <host>` informando o nome do host a ser conectado, lembre-se de estar dentro da pasta com o Vagrantfile.
 
-```bash
 xala@dev:docker-dca$ vagrant ssh node01
-Welcome to Ubuntu 18.04.6 LTS (GNU/Linux 4.15.0-212-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-
-  System information as of Wed Mar 20 10:28:55 UTC 2024
-
-  System load:  0.19              Users logged in:        0
-  Usage of /:   4.6% of 38.70GB   IP address for enp0s3:  10.0.2.15
-  Memory usage: 16%               IP address for enp0s8:  10.20.20.110
-  Swap usage:   0%                IP address for docker0: 172.17.0.1
-  Processes:    102
-
-Expanded Security Maintenance for Infrastructure is not enabled.
-
-17 updates can be applied immediately.
-10 of these updates are standard security updates.
-To see these additional updates run: apt list --upgradable
-
-91 additional security updates can be applied with ESM Infra.
-Learn more about enabling ESM Infra service for Ubuntu 18.04 at
-https://ubuntu.com/18-04
-
-New release '20.04.6 LTS' available.
-Run 'do-release-upgrade' to upgrade to it.
-
-*** System restart required ***
-Last login: Sun Mar 24 09:24:48 2024 from 10.0.2.2
-
-vagrant@node01:~$ 
-vagrant@node01:~$ pwd
-/home/vagrant
-```
 Para desligar as máquinas execute o comando `vagrant halt`.
 Para destruir o ambiente execute o comando `vagrant destroy`.
 
@@ -598,48 +434,18 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo docker run hello-world
 
-```bash
+```
 vagrant@node01:~$ pwd
 /home/vagrant
-vagrant@node01:~$ sudo apt-get update
-Hit:1 http://security.ubuntu.com/ubuntu bionic-security InRelease              
-Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease                        
-Hit:3 https://download.docker.com/linux/ubuntu bionic InRelease          
-Hit:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease          
-Hit:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
-Reading package lists... Done                      
+vagrant@node01:~$ sudo apt-get update  
 vagrant@node01:~$ clear
-
 vagrant@node01:~$ sudo apt-get install ca-certificates curl
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-ca-certificates is already the newest version (20230311ubuntu0.18.04.1).
-curl is already the newest version (7.58.0-2ubuntu3.24).
-0 upgraded, 0 newly installed, 0 to remove and 11 not upgraded.
-vagrant@node01:~$ sudo install -m 0755 -d /etc/apt/keyrings
-vagrant@node01:~$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 vagrant@node01:~$ sudo chmod a+r /etc/apt/keyrings/docker.asc
 vagrant@node01:~$ sudo echo  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 vagrant@node01:~$ cat /etc/apt/sources.list.d/docker.list 
 deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu bionic stable
-vagrant@node01:~$ sudo apt-get update
-Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease                        
-Hit:2 http://security.ubuntu.com/ubuntu bionic-security InRelease              
-Hit:3 https://download.docker.com/linux/ubuntu bionic InRelease         
-Hit:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease         
-Hit:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
-Reading package lists... Done                      
+vagrant@node01:~$ sudo apt-get update                    
 vagrant@node01:~$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-containerd.io is already the newest version (1.6.21-1).
-docker-buildx-plugin is already the newest version (0.10.5-1~ubuntu.18.04~bionic).
-docker-ce-cli is already the newest version (5:24.0.2-1~ubuntu.18.04~bionic).
-docker-ce is already the newest version (5:24.0.2-1~ubuntu.18.04~bionic).
-docker-compose-plugin is already the newest version (2.18.1-1~ubuntu.18.04~bionic).
-0 upgraded, 0 newly installed, 0 to remove and 11 not upgraded.
 vagrant@node01:~$ 
 ```
 
